@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>IPO Checker 3.0</title>
+<style>
+:root{--bg:#0b1220;--panel:#121e30;--panel2:#19283e;--line:#2b3c55;--txt:#eef4ff;--muted:#a7b5ca;--blue:#8bb5ff;--green:#5cdbad;--yellow:#ffd17a;--red:#ff8791}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#14233b 0,#0b1220 42%);color:var(--txt);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:980px;margin:auto;padding:24px 15px 48px}.top{margin-bottom:20px}.eyebrow{font-size:11px;letter-spacing:.15em;color:var(--blue);font-weight:800;text-transform:uppercase}h1{font-size:clamp(28px,6vw,42px);line-height:1.1;letter-spacing:-.04em;margin:5px 0 8px}.intro{color:var(--muted);margin:0;max-width:700px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.85fr);gap:15px}.card{background:#121e30f2;border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:0 14px 35px #0003}.card h2{font-size:17px;margin:0 0 4px}.hint{font-size:12px;color:var(--muted);margin:0 0 15px}.group{font-size:11px;color:#c9d9f1;letter-spacing:.12em;text-transform:uppercase;font-weight:800;border-bottom:1px solid var(--line);padding:10px 0 7px;margin:12px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:#cbd7e9;font-size:12px;margin-bottom:5px}.field input,.field select{width:100%;background:#0b1526;color:var(--txt);border:1px solid #344761;border-radius:10px;padding:11px;font:inherit;min-width:0}.field input:focus{outline:2px solid #8bb5ff66;border-color:var(--blue)}.field small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.wide{grid-column:1/-1}.buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer}.primary{background:var(--blue);color:#0b1729}.secondary{background:#263750;color:var(--txt);border:1px solid #3a506d}.tabs{display:flex;gap:7px;margin:14px 0}.tab{flex:1;border:1px solid #3a4d68;background:#0d1728;color:#c6d4e8;border-radius:10px;padding:10px;font-weight:750;cursor:pointer}.tab.active{background:#263d5e;border-color:var(--blue);color:white}.result{display:none}.result.show{display:block}.status{display:inline-block;border-radius:999px;padding:5px 9px;background:#263750;color:#e2ecfb;font-size:11px;font-weight:800}.status.good{background:#143c35;color:#8bf0ca}.status.warn{background:#49391e;color:#ffe0a0}.status.bad{background:#482832;color:#ffb1b8}.headline{font-size:24px;font-weight:850;letter-spacing:-.03em;margin:8px 0 2px}.desc{font-size:13px;color:var(--muted);margin:0 0 12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}.stat{background:#0b1628;border:1px solid #283b56;border-radius:12px;padding:11px}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}.check{padding:11px 0;border-bottom:1px solid #28384e}.check:last-child{border:0}.check strong{display:block;font-size:13px}.check p{font-size:12px;color:var(--muted);margin:3px 0 0}.disclaimer{background:#30291d;border:1px solid #66542e;color:#ffe4ad;padding:11px;border-radius:11px;font-size:11px;margin-top:13px}.details{margin-top:12px}.details summary{cursor:pointer;color:#cbd9ef;font-size:12px;font-weight:750}.foot{font-size:11px;color:#8798b2;margin-top:16px}.hidden{display:none}
+@media(max-width:780px){.layout{grid-template-columns:1fr}}@media(max-width:430px){main{padding:18px 11px 35px}.card{padding:14px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.tabs{position:sticky;top:0;background:#0b1220;padding:5px 0;z-index:2}.headline{font-size:22px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<div class="eyebrow">Beginner-friendly · Manual inputs</div>
+<h1>IPO Checker <span style="color:var(--blue)">3.0</span></h1>
+<p class="intro">One simple place to examine an IPO from two angles: possible listing-day signals and long-term business quality. It explains the numbers instead of promising returns.</p>
+</header>
+<div class="layout">
+<section class="card">
+<h2>Enter IPO details</h2>
+<p class="hint">Use figures from the RHP/DRHP or official exchange/company documents. Amounts below are in ₹ crore unless specified.</p>
+<div class="group">Basic company & valuation</div>
+<div class="grid">
+<div class="field"><label for="price">IPO price (₹ per share)</label><input id="price" type="number" min="0" step="any" placeholder="e.g. 82"></div>
+<div class="field"><label for="mcap">Post-issue market cap (₹ Cr)</label><input id="mcap" type="number" min="0" step="any" placeholder="e.g. 515.16"><small>Use post-issue shares × upper price band.</small></div>
+<div class="field"><label for="revenue">Latest FY revenue (₹ Cr)</label><input id="revenue" type="number" min="0" step="any" placeholder="e.g. 1266.82"></div>
+<div class="field"><label for="pat">Latest FY PAT (₹ Cr)</label><input id="pat" type="number" step="any" placeholder="e.g. 30.54"><small>Enter a negative number if loss-making.</small></div>
+<div class="field"><label for="peerpe">Peer median P/E (x)</label><input id="peerpe" type="number" min="0" step="any" placeholder="Optional"></div>
+<div class="field"><label for="peerps">Peer median P/S (x)</label><input id="peerps" type="number" min="0" step="any" placeholder="Optional"></div>
+</div>
+<div class="group">Business health · long-term view</div>
+<div class="grid">
+<div class="field"><label for="growth">Revenue CAGR (%)</label><input id="growth" type="number" step="any" placeholder="e.g. 20"><small>Ideally 3-year historical CAGR.</small></div>
+<div class="field"><label for="de">Debt / equity (x)</label><input id="de" type="number" min="0" step="any" placeholder="Optional"></div>
+<div class="field"><label for="ocf">Operating cash flow / PAT (x)</label><input id="ocf" type="number" step="any" placeholder="Optional"><small>Use same financial year; omit if PAT ≤ 0.</small></div>
+<div class="field"><label for="margin">EBITDA margin (%)</label><input id="margin" type="number" step="any" placeholder="Optional"></div>
+</div>
+<div class="group">Listing-day signals · optional</div>
+<div class="grid">
+<div class="field"><label for="gmp">Latest GMP (₹ per share)</label><input id="gmp" type="number" step="any" placeholder="Optional"><small>Unofficial grey-market indication only.</small></div>
+<div class="field"><label for="qib">QIB subscription (×)</label><input id="qib" type="number" min="0" step="any" placeholder="Optional"></div>
+<div class="field"><label for="nii">NII subscription (×)</label><input id="nii" type="number" min="0" step="any" placeholder="Optional"></div>
+<div class="field"><label for="retail">Retail subscription (×)</label><input id="retail" type="number" min="0" step="any" placeholder="Optional"></div>
+</div>
+<div class="buttons"><button class="btn primary" id="run">Analyse IPO</button><button class="btn secondary" id="sample">Load example</button><button class="btn secondary" id="reset">Clear</button></div>
+<p class="foot">This tool does not fetch or verify data. Check whether all financial figures are consolidated or standalone and use the same basis throughout.</p>
+</section>
+<section class="card" id="output">
+<h2>Your IPO report</h2><p class="hint">Fill in the company details and tap Analyse IPO.</p>
+<div class="tabs"><button class="tab active" data-tab="listing">Listing view</button><button class="tab" data-tab="long">Long-term view</button></div>
+<div id="empty" class="hint">Your results will appear here. Optional fields can be left blank.</div>
+<div id="listing" class="result">
+<span class="status" id="liststatus">Waiting for data</span>
+<div class="headline" id="listtitle">Listing-day signals</div><p class="desc" id="listdesc"></p>
+<div class="stats">
+<div class="stat"><b id="implied">—</b><span>GMP-implied price (not a forecast)</span></div>
+<div class="stat"><b id="premium">—</b><span>GMP-implied premium to issue price</span></div>
+<div class="stat"><b id="qibout">—</b><span>QIB subscription</span></div>
+<div class="stat"><b id="retailout">—</b><span>Retail subscription</span></div>
+</div>
+<div id="listchecks"></div>
+<div class="disclaimer">GMP is unofficial, opaque and can change quickly. Subscription levels show demand, not guaranteed listing performance. Actual listing price can be below the issue price.</div>
+</div>
+<div id="long" class="result">
+<span class="status" id="longstatus">Waiting for data</span>
+<div class="headline" id="longtitle">Long-term business view</div><p class="desc" id="longdesc"></p>
+<div class="stats">
+<div class="stat"><b id="peout">—</b><span>Calculated post-issue P/E</span></div>
+<div class="stat"><b id="psout">—</b><span>Calculated post-issue P/S</span></div>
+<div class="stat"><b id="perel">—</b><span>P/E vs peer median</span></div>
+<div class="stat"><b id="psrel">—</b><span>P/S vs peer median</span></div>
+</div>
+<div id="longchecks"></div>
+<div class="disclaimer">A low P/E or P/S is not automatically cheap. Compare similar companies and investigate governance, customer/supplier concentration, use of proceeds, industry cycles and risks in the RHP.</div>
+</div>
+</section>
+</div>
+<p class="foot">Educational screening tool only. It does not recommend applying, predict listing gains, or assess your personal financial situation. No score can replace reading the prospectus.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const fields=['price','mcap','revenue','pat','peerpe','peerps','growth','de','ocf','margin','gmp','qib','nii','retail'];
+const get=id=>{let s=$(id).value.trim();return s===''?null:Number(s)};
+const valid=n=>n!==null&&Number.isFinite(n);
+const f=(n,d=2)=>valid(n)?n.toFixed(d):'—';
+const percent=n=>(n>=0?'+':'')+n.toFixed(1)+'%';
+function status(el,kind,text){$(el).className='status '+kind;$(el).textContent=text}
+function check(title,body,kind=''){return `<div class="check"><strong>${title}${kind?` · ${kind}`:''}</strong><p>${body}</p></div>`}
+function analyse(){
+ const x=Object.fromEntries(fields.map(k=>[k,get(k)]));
+ const errors=[];
+ if(!(x.price>0))errors.push('Enter a valid IPO price.');
+ if(!(x.mcap>0))errors.push('Enter post-issue market capitalisation.');
+ if(!(x.revenue>0))errors.push('Enter latest FY revenue.');
+ if(!valid(x.pat))errors.push('Enter latest FY PAT (use a minus sign for a loss).');
+ if(errors.length){$('empty').textContent=errors.join(' ');$('empty').style.display='block';return}
+ $('empty').style.display='none';
+ const pe=x.pat>0?x.mcap/x.pat:null, ps=x.mcap/x.revenue;
+ // Listing lens: report observed signals; intentionally no predictive score.
+ const hasGmp=valid(x.gmp), implied=hasGmp?x.price+x.gmp:null, prem=hasGmp?x.gmp/x.price*100:null;
+ $('implied').textContent=hasGmp?'₹'+f(implied):'Not entered';
+ $('premium').textContent=hasGmp?percent(prem):'Not entered';
+ $('qibout').textContent=valid(x.qib)?f(x.qib)+'x':'Not entered';
+ $('retailout').textContent=valid(x.retail)?f(x.retail)+'x':'Not entered';
+ let lchecks=[];
+ if(hasGmp)lchecks.push(check('Grey-market indication',`Entered GMP is ₹${f(x.gmp)} per share. This implies ₹${f(implied)} or ${percent(prem)} over the issue price, but GMP is unofficial and not a reliable prediction.`));
+ else lchecks.push(check('Grey-market indication','Not entered. Do not treat missing GMP as zero or assume a listing premium.'));
+ if(valid(x.qib)||valid(x.nii)||valid(x.retail)){
+  const vals=[['QIB',x.qib],['NII',x.nii],['Retail',x.retail]].filter(a=>valid(a[1]));
+  lchecks.push(check('Subscription demand',vals.map(a=>a[0]+': '+f(a[1])+'x').join(' · ')+'. These are demand indicators, not a guarantee of listing gains.'));
+ } else lchecks.push(check('Subscription demand','Not entered. Use final category-wise subscription figures from the exchange, not early-day snapshots.'));
+ lchecks.push(check('Listing risk','Listing price depends on market conditions, issue pricing, liquidity and investor demand on listing day. A listing loss is possible.'));
+ $('listchecks').innerHTML=lchecks.join('');
+ if(hasGmp&&prem>10){status('liststatus','warn','Positive unofficial GMP indication');$('listtitle').textContent='Unofficial premium indicated';$('listdesc').textContent='This is a grey-market signal only; it does not establish fair value or likely listing price.'}
+ else if(hasGmp&&prem<0){status('liststatus','bad','Negative unofficial GMP indication');$('listtitle').textContent='Negative unofficial indication';$('listdesc').textContent='The entered GMP is below the issue price. This may change and is not a dependable forecast.'}
+ else {status('liststatus','warn','Listing outcome uncertain');$('listtitle').textContent='No dependable listing conclusion';$('listdesc').textContent='Use GMP and final subscription only as context. Avoid making an application decision from these figures alone.'}
+ // Long-term lens: calculations and simple explainable flags, no single arbitrary score.
+ $('peout').textContent=pe===null?'N/M':f(pe)+'x';$('psout').textContent=f(ps)+'x';
+ $('perel').textContent=valid(x.peerpe)&&x.peerpe>0&&pe!==null?percent((pe/x.peerpe-1)*100):'Peer data needed';
+ $('psrel').textContent=valid(x.peerps)&&x.peerps>0?percent((ps/x.peerps-1)*100):'Peer data needed';
+ let c=[], concerns=0, positives=0;
+ if(pe!==null&&valid(x.peerpe)&&x.peerpe>0){let r=pe/x.peerpe;c.push(check('P/E vs peer median',`Company P/E is ${f(pe)}x versus peer median ${f(x.peerpe)}x (${percent((r-1)*100)}). Compare growth, margins and accounting before calling it cheap.`));if(r<1)positives++;else concerns++}
+ else if(pe===null){c.push(check('Profitability','PAT is zero or negative, so P/E is not meaningful. Use P/S cautiously and examine the path to profitability.','Review'))}
+ else c.push(check('P/E vs peers','Enter a comparable-company median P/E to assess relative valuation.'));
+ if(valid(x.peerps)&&x.peerps>0){let r=ps/x.peerps;c.push(check('P/S vs peer median',`Company P/S is ${f(ps)}x versus peer median ${f(x.peerps)}x (${percent((r-1)*100)}). Revenue multiples must be compared within similar business models.`));if(r<1)positives++;else concerns++}
+ else c.push(check('P/S vs peers','Enter a comparable-company median P/S. P/S ignores profitability and debt.'));
+ if(valid(x.growth)){let msg=x.growth>=15?'Strong historical revenue growth entered. Check whether it is sustainable and profitable.':x.growth>=5?'Moderate historical revenue growth entered.':x.growth>=0?'Low historical revenue growth entered.':'Revenue has declined over the period entered.';c.push(check('Revenue growth',msg));if(x.growth>=15)positives++;if(x.growth<5)concerns++}
+ else c.push(check('Revenue growth','Enter 3-year revenue CAGR to assess the growth trend.'));
+ if(valid(x.de)){let msg=x.de>2?'High leverage under a broad non-financial-company screen; examine repayment ability and interest costs.':x.de>1?'Meaningful leverage; compare with sector peers and cash generation.':'Debt/equity is not high under this broad screen, but sector context matters.';c.push(check('Debt / equity',`Entered ${f(x.de)}x. ${msg}`));if(x.de>2)concerns++;else if(x.de<1)positives++}
+ else c.push(check('Debt / equity','Enter debt/equity if relevant. Banks and NBFCs need different sector-specific measures.'));
+ if(valid(x.ocf)&&x.pat>0){let msg=x.ocf<.5?'Weak cash conversion: operating cash flow is much lower than PAT. Check working capital and receivables.':x.ocf<.8?'Cash conversion is below PAT; investigate working-capital movements.':'Cash flow is reasonably close to or above reported PAT for the year entered.';c.push(check('Cash conversion',`OCF/PAT is ${f(x.ocf)}x. ${msg}`));if(x.ocf<.5)concerns++;else if(x.ocf>=.8)positives++}
+ else c.push(check('Cash conversion','Optional. Enter operating cash flow ÷ PAT for the same year when PAT is positive.'));
+ if(valid(x.margin)){c.push(check('EBITDA margin',`Entered margin is ${f(x.margin)}%. Compare it with the company's own history and same-sector peers; there is no universal good margin.`))}
+ if(concerns>=2){status('longstatus','warn','Several items need investigation');$('longtitle').textContent='Fundamentals need closer review';$('longdesc').textContent='The entered figures show multiple areas to investigate before a long-term investment.'}
+ else if(positives>=2&&concerns===0){status('longstatus','good','Some encouraging indicators');$('longtitle').textContent='Some positive indicators';$('longdesc').textContent='Several entered indicators look constructive, but this is not a buy recommendation.'}
+ else{status('longstatus','warn','Mixed or incomplete picture');$('longtitle').textContent='More research needed';$('longdesc').textContent='The available inputs are not enough for a confident long-term conclusion.'}
+ $('longchecks').innerHTML=c.join('');
+}
+$('run').addEventListener('click',()=>{analyse();$('output').scrollIntoView({behavior:'smooth',block:'start'})});
+$('sample').addEventListener('click',()=>{const v={price:82,mcap:515.16,revenue:1266.82,pat:30.54,peerpe:31.03,peerps:1.49,growth:29.5,de:2.78,ocf:.33,margin:6.8,gmp:0,qib:6.89,nii:1.9,retail:3.17};for(const k in v)$(k).value=v[k];analyse()});
+$('reset').addEventListener('click',()=>{fields.forEach(k=>$(k).value='');$('empty').style.display='block';$('empty').textContent='Your results will appear here. Optional fields can be left blank.';document.querySelectorAll('.result').forEach(e=>e.classList.remove('show'));document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.querySelector('[data-tab="listing"]').classList.add('active')});
+function setTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.result').forEach(e=>e.classList.toggle('show',e.id===name));}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+setTab('listing');
+</script>
+</body></html>
